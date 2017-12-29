@@ -22,6 +22,6 @@
 
 <script type="text/javascript">
     $('#btn1').click(function(){
-        alert('WCDS');
+        alert('WC');
     });
 </script>
