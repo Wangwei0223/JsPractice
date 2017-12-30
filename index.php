@@ -5,6 +5,7 @@
     <title>JS Exercise</title>
     <link rel="stylesheet" type="text/css" href="./static/css/bootstrap.min.css">
     <script type="text/javascript" src="./static/js/jquery-3.2.1.min.js"></script>
+    <script type="text/javascript" defer src="./static/js/index.js"></script>
 </head>
 
 <style type="text/css">
@@ -19,9 +20,11 @@
 
 </body>
 </html>
-
 <script type="text/javascript">
     $('#btn1').click(function(){
-        alert('WCB');
-    });
+        "use strict";
+        x = 10;
+        alert(x);
+        alert('<\/script>');
+});
 </script>
