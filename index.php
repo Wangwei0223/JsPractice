@@ -18,6 +18,7 @@
 
 <button class="btn btn-warning" id="btn1">Test</button>
 <button class="btn btn-warning" id="btn2">Test Paramter</button>
+<button class="btn btn-warning" id="btn3">Test Array</button>
 
 </body>
 </html>
@@ -64,14 +65,26 @@
    }
 
    var text = "mom and dad and baby";
-   parttern = /mom( and dad( and baby)?)?/gi;
+   parttern = /mom( and dad( and bady)?)?/gi;
    $('#btn2').click(function(){
-    //func1({name: "Xiao Lin"});
+    func1({name: "Xiao Lin"});
     var num = 100;
-    //alert(num.toPrecision(4)); //100.0
-    //alert(num.toExponential(1)); //1.0e+2
+    alert(num.toPrecision(4)); //100.0
+    alert(num.toExponential(1)); //1.0e+2
     var mathch = parttern.exec(text);
     alert(mathch[0]);  //不匹配的都是undefined
    });
 
+</script>
+
+<!-- Array -->
+<script>
+    var var_array = [1,2,3,4,5];
+    var new_array = var_array;
+
+    $('#btn3').click(function(){
+        alert(typeof var_array);
+        new_array[0] = 3;
+        alert(var_array);
+   });
 </script>
