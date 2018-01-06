@@ -63,7 +63,15 @@
         age: 23 
    }
 
+   var text = "mom and dad and baby";
+   parttern = /mom( and dad( and baby)?)?/gi;
    $('#btn2').click(function(){
-    func1({name: "Xiao Lin"});
+    //func1({name: "Xiao Lin"});
+    var num = 100;
+    //alert(num.toPrecision(4)); //100.0
+    //alert(num.toExponential(1)); //1.0e+2
+    var mathch = parttern.exec(text);
+    alert(mathch[0]);  //不匹配的都是undefined
    });
+
 </script>
