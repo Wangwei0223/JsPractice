@@ -17,14 +17,53 @@
 <body>
 
 <button class="btn btn-warning" id="btn1">Test</button>
+<button class="btn btn-warning" id="btn2">Test Paramter</button>
 
 </body>
 </html>
 <script type="text/javascript">
-    $('#btn1').click(function(){
+   function usestrict(){
         "use strict";
-        x = 10;
+        var x = 10;
         alert(x);
-        alert('<\/script>');
-});
+   }
+
+   function test(){
+    message = 'hi';  //global variable
+    var message2 = 'hi2'; //local variable
+    string_var = 'abc';
+    num_var = 10;
+    boolean_var = true;
+    null_var = null; //if the varibale is object or null  --- alert object
+    // alert(typeof(variable)) if varibale is not defined, then it will alert 'undefined'
+   }
+
+   $('#btn1').click(function(){
+    test();
+    var undefined_var;  //declear with var without initializtion
+    alert(typeof undefined_var); //global variable without var
+   });
+
+
+</script>
+
+<!-- Object & Function -->
+<script>
+   var func1 = function(obj){
+        if(typeof arguments[0].name == "string"){
+            alert(arguments[0].age);
+        }
+   }
+
+   var person = new Object();
+   person.name = "Wei Wang";
+
+   var person1 = {
+        name : "Chen Mang",
+        age: 23 
+   }
+
+   $('#btn2').click(function(){
+    func1({name: "Xiao Lin"});
+   });
 </script>
