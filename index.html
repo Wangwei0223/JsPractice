@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>JS Exercise</title>
+    <link rel="stylesheet" type="text/css" href="./static/css/bootstrap.min.css">
+    <script type="text/javascript" src="./static/js/jquery-3.2.1.min.js"></script>
+    <script type="text/javascript" defer src="./static/js/index.js"></script>
+</head>
+
+<style type="text/css">
+    body{
+         background-color: gray;
+    }
+</style>
+
+<body>
+
+<button class="btn btn-warning" id="btn1">Test</button>
+<button class="btn btn-warning" id="btn2">Test Paramter</button>
+<button class="btn btn-warning" id="btn3">Test Array</button>
+<button class="btn btn-warning" id="btn4">Test String</button>
+<button class="btn btn-warning" id="btn5">Test This</button>
+<button class="btn btn-warning" id="btn6">Test defineProperty</button>
+<button class="btn btn-warning" id="btn7">Test context</button>
+<button class="btn btn-warning" id="btn8">Test context2</button>
+<button class="btn btn-warning" id="btn9">Test context3</button>
+
+</body>
+</html>
+<script type="text/javascript">
+   function usestrict(){
+        "use strict";
+        var x = 10;
+        alert(x);
+   }
+
+   function test(){
+    message = 'hi';  //global variable
+    var message2 = 'hi2'; //local variable
+    string_var = 'abc';
+    num_var = 10;
+    boolean_var = true;
+    null_var = null; //if the varibale is object or null  --- alert object
+    // alert(typeof(variable)) if varibale is not defined, then it will alert 'undefined'
+   }
+
+   $('#btn1').click(function(){
+    test();
+    var undefined_var;  //declear with var without initializtion
+    alert(typeof undefined_var); //global variable without var
+   });
+
+
+</script>
+
+<!-- Object & Function -->
+<script>
+   var func1 = function(obj){
+        if(typeof arguments[0].name == "string"){
+            alert(arguments[0].age);
+        }
+   }
+
+   var person = new Object();
+   person.name = "Wei Wang";
+
+   var person1 = {
+        name : "Chen Mang",
+        age: 23 
+   }
+
+   var text = "mom and dad and baby";
+   parttern = /mom( and dad( and bady)?)?/gi;
+   $('#btn2').click(function(){
+    func1({name: "Xiao Lin"});
+    var num = 100;
+    alert(num.toPrecision(4)); //100.0
+    alert(num.toExponential(1)); //1.0e+2
+    var mathch = parttern.exec(text);
+    alert(mathch[0]);  //不匹配的都是undefined
+   });
+
+</script>
+
+<!-- Array -->
+<script>
+    var var_array = [1,2,3,4,5];
+    var new_array = var_array;
+    $('#btn3').click(function(){
+        alert(stringvalue);
+        alert(typeof var_array);
+        new_array[0] = 3;
+        alert(var_array);
+   });
+</script>
+<!-- 字符串位置方法 -->
+<script>
+    var stringvalue = "zello"; //小写在大写前
+    var stringvalue1 = "Zello";
+    var var_global = function(){  //window.var_global = function(){};
+        return this;
+    };
+    $('#btn4').click(function(){
+        //alert(stringvalue);
+        alert(var_global.call(stringvalue1));
+        alert(stringvalue.localeCompare(stringvalue1));
+        alert(stringvalue.indexOf('s'));
+   });
+    //alert(); //window.alert()
+</script>
+
+<!-- this -->
+<script>
+    function testthis(){
+        alert(this);
+        var inner = function(){
+            alert(this);
+        };
+        var thisvalue = "hello";
+        inner.call(thisvalue);
+    }
+
+    $('#btn5').click(function(){
+        testthis();
+    });
+</script>
+
+<!-- object -->
+<script>
+    var book = {
+        _year: 2004,
+        edition: 1
+    }; 
+
+    Object.defineProperty(book, "year", {
+        get: function(){
+            return this._year;
+        },
+        set: function(new_value){
+            if(new_value > 2004){
+                this._year = new_value;
+                this.edition = new_value - 2004;
+            }
+        }
+    });
+// 作用域
+    var a = 10;
+    function fn(){
+        //alert(a);
+        console.log(a);
+        console.log(arguments);
+    }
+
+    function bar(){
+        var a = 20;
+        fn();
+    }
+
+    // var a; function... a 
+    $('#btn6').click(function(){
+        alert(book.year);
+        book.year = 2005;
+        alert(book.year);
+        console.log(typeof book);
+        bar();
+    });
+</script>
+
+<script>
+    function creatFunctions(){
+        var result = new Array();
+        var i;
+        for(i = 0; i < 10; i++){
+            result[i] = function(num){
+                return function(){
+                    return num;
+                };
+            }(i);
+        }
+        return result;
+    }
+
+    $('#btn7').click(function(){
+        var result = creatFunctions();
+        for(var i = 0; i < 10; i++){
+            console.log(i +': '+ result[i]());
+        }
+
+        //somefunc(); 表达式不会提前 是在实行时赋值的
+        alert(somefunc); //undefined
+
+        var somefunc = function(){
+            alert(a);
+            var a = 'a'; //变量不会提前 只有函数会提前 变量是在执行到自己这行代码时才会被复制 之前都是undefined
+            alert("自执行匿名函数");
+        }();
+
+        function somefuc2(){
+            alert(a);
+            var a = 'b';
+        }
+        somefuc2();
+
+    });
+</script>
+
+<!-- 闭包 -->
+
+<script type="text/javascript">
+    $('#btn8').click(function(){
+        var x = 10;
+        function foo() {
+            alert("调用foo开始");
+            var y = 20;
+        
+        function barFD() { // 函数声明
+            alert(x);
+            alert(y);
+        }
+         
+        var barFE = function () { // 函数表达式
+            var x = 2333;
+            alert(x);//先从自己的AO中 找 现在自己的AO中有x = undefined
+            alert(y);
+            alert('barFE 中调用');
+            barFD();
+        };
+         
+        var barFn = Function('alert(x); alert(y);');
+         
+        barFD(); // 
+        barFE(); // 
+          //barFn(); // 10, "y" is not defined
+         
+        }
+        //foo();
+
+
+        ////
+        var name = "Will";
+        var obj = {
+            name: "obj",
+            func: function () {
+                console.log(this + ":" + this.name);
+            }
+        };
+        temp = obj.func;  //加不加var 都是window
+        temp();
+        obj.func();
+    });
+</script>
+
+<script type="text/javascript">
+    function testwin(){
+        console.log(x1);  //报错
+    }
+
+    function Testw(){
+        this.name = "Wang Wei";
+        this.birth = 1995;
+    }
+
+    Testw.prototype.getName = function(){
+        console.log("Name: " + this.name);
+    };
+    
+
+    $('#btn9').click(function(){
+        console.log(window.x1);  //window中虽然没有声明x 但是不报错出的是undefined
+        console.log(this.x1);
+        //console.log(x1);  ////报错x 未定义
+        //testwin(); //报错x 未定义
+        var tw = new Testw();
+        tw.getName();
+        var temppro = Testw.prototype;
+        temppro.getName(); //undefined 
+        Testw.prototype.getName(); //undefined
+
+        //this 巩固
+        console.log("Practice this");
+        window.x2=10;
+        var var_x8 = "变量 var_x8";
+        window.var_x8 = "window var_x8";
+        var obj={
+            x2:20,
+            var_x8: "属性 var_x8",
+            f:function (){
+                console.log(this.x2); //这个和下方的不一样是因为 这个function 不是变量 是对象obj的f属性
+                console.log(this.var_x8);  //从对象找属性名 找不到(未定义) 不报 not defined的错 直接是undefined
+                //var that=this;
+                var foo = function(){
+                    console.log(this.x2);  //var foo 只是个变量并不是属性，所以this.x2还是window的x2属性
+                    console.log(var_x8); 
+                    console.log(this.var_x8);
+                };
+                foo();
+            }
+        };
+        obj.f();
+    });
+</script>
