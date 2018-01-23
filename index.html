@@ -5,7 +5,7 @@
     <title>JS Exercise</title>
     <link rel="stylesheet" type="text/css" href="./static/css/bootstrap.min.css">
     <script type="text/javascript" src="./static/js/jquery-3.2.1.min.js"></script>
-    <script type="text/javascript" defer src="./static/js/index.js"></script>
+    <!-- <script type="text/javascript" defer src="./static/js/index.js"></script> -->
 </head>
 
 <style type="text/css">
@@ -25,6 +25,7 @@
 <button class="btn btn-warning" id="btn7">Test context</button>
 <button class="btn btn-warning" id="btn8">Test context2</button>
 <button class="btn btn-warning" id="btn9">Test context3</button>
+<button class="btn btn-warning" id="btn10">Test Prototype</button>
 
 </body>
 </html>
@@ -221,7 +222,7 @@
          
         var barFE = function () { // 函数表达式
             var x = 2333;
-            alert(x);//先从自己的AO中 找 现在自己的AO中有x = undefined
+            alert(x);//先从自己的AO中 找 现在自己的AO中有x = 2333
             alert(y);
             alert('barFE 中调用');
             barFD();
@@ -239,6 +240,7 @@
 
         ////
         var name = "Will";
+        name = "Past";  //和 window.name 一样
         var obj = {
             name: "obj",
             func: function () {
@@ -246,8 +248,10 @@
             }
         };
         temp = obj.func;  //加不加var 都是window
-        temp();
+        window.temp();
         obj.func();
+        var temp2 = obj.func;
+        temp2();
     });
 </script>
 
@@ -298,5 +302,38 @@
             }
         };
         obj.f();
+    });
+</script>
+
+<!-- Prototype -->
+<script type="text/javascript">
+    $('#btn10').click(function(){
+        function Person(name, age){
+            this.name = name;
+            this.age = age;
+    
+            this.getInfo = function(){
+                console.log(this.name + " is " + this.age + " years old");
+            };
+
+        }
+        var will = new Person("Will", 28);
+        console.log(will.__proto__);  //指向创建该对象的函数(constructor)的原型
+        console.log(will.constructor);
+
+        Person.prototype.MaxNumber = 9999;
+        Person.__proto__.MinNumber = -9999;
+
+        Object.prototype.MinNumber = -8888;
+        Person.prototype.__proto__.MinNumber == -9999; //undefined 不能这么用？
+
+        console.log(Object.prototype === Person.prototype.__proto__);
+
+        console.log(Person.prototype.__proto__);
+        console.log(Object.prototype);
+
+        console.log(will.MaxNumber); //记住沿着__proto__找
+        console.log(will.MinNumber); //记住沿着__proto__找,Person.prototype 没找到 再上一层是Person.prototype.__proto__ 而不是Person.__proto__
+        //Person.__proto__是Function.prototype
     });
 </script>
